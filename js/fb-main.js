@@ -38,7 +38,7 @@ var pipes = new Array();
 var skyThemeIndex = -1; // começa sem tema aplicado; o primeiro virá no 3º ponto
 var skyHueFilters = ['hue-rotate(20deg)', 'hue-rotate(60deg)', 'hue-rotate(100deg)', 'hue-rotate(160deg)', 'hue-rotate(200deg)', 'hue-rotate(260deg)', 'hue-rotate(320deg)'];
 var skyHexColors = ['#2A5595','#2A5595','#2A5595','#6D2077','#6D2077','#E43886','#E43886']; // 7 cores hex para usar no lugar do filtro (preparado para futuro)
-var defaultSkyColor = '#4ec0ca';
+var defaultSkyColor = '#2A5595';
 var gameFinished = false; // sinaliza finalização no 21º ponto
 
 // Labels de fases (7 fases)
@@ -105,8 +105,6 @@ var loopPipeloop;
 
 // Assim que o documento carregar começa a depuração do jogo
 $(document).ready(function () {
-   if (window.location.search == "?debug")
-      debugmode = true;
    if (window.location.search == "?easy")
       pipeheight = 200;
 
@@ -157,6 +155,7 @@ function showSplash() {
 
    // fade para a splash screen aparecer
    $("#splash").transition({ opacity: 1 }, 2000, 'ease');
+   $("#modal-boas-vindas").transition({ opacity: 1 }, 2000, 'ease');
 }
 
 // Função para começar o jogo
@@ -167,6 +166,10 @@ function startGame() {
    // fade para a splash screen sumir
    $("#splash").stop();
    $("#splash").transition({ opacity: 0 }, 500, 'ease');
+
+   // fade para o modal de boas-vindas sumir
+   $("#modal-boas-vindas").stop();
+   $("#modal-boas-vindas").transition({ opacity: 0 }, 500, 'ease');
 
    // ir mostrando o score no topo do jogo
    setBigScore();
@@ -248,8 +251,7 @@ function gameloop() {
       if (boxtop > pipetop && boxbottom < pipebottom) {
          // sim, estamos dentro dos limites!
 
-      }
-      else {
+      } else {
          // não podemos pular estando dentro do cano, você morreu! return game!
          playerDead();
          return;
