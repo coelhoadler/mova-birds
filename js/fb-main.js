@@ -37,9 +37,33 @@ var pipes = new Array();
 // Controle de mudança de cor do céu
 var skyThemeIndex = -1; // começa sem tema aplicado; o primeiro virá no 3º ponto
 var skyHueFilters = ['hue-rotate(20deg)', 'hue-rotate(60deg)', 'hue-rotate(100deg)', 'hue-rotate(160deg)', 'hue-rotate(200deg)', 'hue-rotate(260deg)', 'hue-rotate(320deg)'];
-var skyHexColors = ['#87ceeb','#90ee90','#ffa07a','#dda0dd','#ffd700','#00ced1','#ff69b4']; // 7 cores hex para usar no lugar do filtro (preparado para futuro)
+var skyHexColors = ['#2A5595','#2A5595','#2A5595','#6D2077','#6D2077','#E43886','#E43886']; // 7 cores hex para usar no lugar do filtro (preparado para futuro)
 var defaultSkyColor = '#4ec0ca';
 var gameFinished = false; // sinaliza finalização no 21º ponto
+
+// Labels de fases (7 fases)
+var phaseLabels = [
+   'Onboarding do tomador',
+   'Análise de crédito',
+   'Antifraude',
+   'Formalização',
+   'Bancarização',
+   'Recebimento',
+   'Cobrança'
+];
+
+function ensurePhaseLabelElement() {
+   if ($('#phase-label').length === 0) {
+      // cria o elemento uma vez dentro da área de voo
+      $('#flyarea-game').append('<div id="phase-label"></div>');
+   }
+}
+
+function setPhaseLabel(index) {
+   ensurePhaseLabelElement();
+   var text = phaseLabels[index] || '';
+   $('#phase-label').text(text);
+}
 
 function applySkyTheme(index) {
    var hexColor = skyHexColors[index];
@@ -125,6 +149,7 @@ function showSplash() {
    skyThemeIndex = -1;
    resetSkyTheme();
    gameFinished = false;
+   setPhaseLabel(-1);
 
    // começar todas as animações dos sprites novamente
    $(".animated").css('animation-play-state', 'running');
@@ -445,12 +470,15 @@ function playerScore() {
    soundScore.play();
    setBigScore();
 
-   // alterna tema do céu a cada 3 pontos, até 21 (7 temas)
-   if (score % 3 === 0) {
-      var nextIndex = Math.floor(score / 3) - 1; // 0 no 3º, 1 no 6º, ..., 6 no 21º
-      if (nextIndex >= 0 && nextIndex < skyHueFilters.length) {
-         skyThemeIndex = nextIndex;
-         applySkyTheme(skyThemeIndex);
+   // alterna tema do céu por blocos de 3 pontos (1-3, 4-6, 7-9, ...)
+   if (score >= 1) {
+      var blockIndex = Math.floor((score - 1) / 3); // 0 para 1-3, 1 para 4-6, ..., 6 para 19-21
+      if (blockIndex >= 0 && blockIndex < skyHueFilters.length) {
+         if (blockIndex !== skyThemeIndex) {
+            skyThemeIndex = blockIndex;
+            applySkyTheme(skyThemeIndex);
+            setPhaseLabel(skyThemeIndex);
+         }
       }
    }
 

@@ -265,6 +265,22 @@ body {
    align-items: center;
 }
 
+/* Label central para nome da fase */
+#phase-label {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   color: #ffffff;
+   text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+   font-size: 28px;
+   font-weight: 800;
+   letter-spacing: 0.5px;
+   z-index: 900; /* acima de pipes, abaixo do scoreboard (1000) */
+   text-align: center;
+   padding: 8px 12px;
+}
+
 /* Bloco de tijolo */
 #ceiling {
    position: absolute;
