@@ -10,6 +10,7 @@
    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon"> <!-- Ícone do jogo -->
    <link href="css/fb-reset.css" rel="stylesheet"> <!-- CSS Reset-->
    <link href="css/fb-main.css" rel="stylesheet"> <!-- CSS Principal -->
+
 </head>
 
 <body>
@@ -24,8 +25,8 @@
                <div id="splash"></div> <!-- Splashscreen - Tela inicial "Get ready" -->
                <div id="scoreboard"> <!-- Quadro de pontuação -->
                   <div id="medal"></div> <!-- Medalha conquistada -->
-                  <div id="currentscore"></div> <!-- Pontuação obtida -->
-                  <div id="highscore"></div> <!-- Maior pontuação por Cookies -->
+                  <div id="currentscore" class="flex justify-end"></div> <!-- Pontuação obtida -->
+                  <div id="highscore" class="flex justify-end"></div> <!-- Maior pontuação por Cookies -->
                   <div id="replay"><img src="assets/replay.png" alt="replay"></div> <!-- IMG para recomeçar -->
                </div>
                <!-- Pipes ou Canos, vão aparecendo aqui por meio de um Array -->
@@ -36,6 +37,7 @@
    </main>
 
    <!-- // JS & APIs -->
+   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
    <script src="js/fb-jquery.min.js"></script> <!-- JQuery -->
    <script src="js/fb-jquery.transit.min.js"></script> <!-- JQuery transições -->
    <script src="js/fb-buzz.min.js"></script> <!-- API para áudio -->
