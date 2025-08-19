@@ -34,6 +34,35 @@ var pipeheight = 130;
 var pipewidth = 52;
 var pipes = new Array();
 
+// Controle de mudança de cor do céu
+var skyThemeIndex = -1; // começa sem tema aplicado; o primeiro virá no 3º ponto
+var skyHueFilters = ['hue-rotate(20deg)', 'hue-rotate(60deg)', 'hue-rotate(100deg)', 'hue-rotate(160deg)', 'hue-rotate(200deg)', 'hue-rotate(260deg)', 'hue-rotate(320deg)'];
+var skyHexColors = ['#87ceeb','#90ee90','#ffa07a','#dda0dd','#ffd700','#00ced1','#ff69b4']; // 7 cores hex para usar no lugar do filtro (preparado para futuro)
+var defaultSkyColor = '#4ec0ca';
+var gameFinished = false; // sinaliza finalização no 21º ponto
+
+function applySkyTheme(index) {
+   var hexColor = skyHexColors[index];
+   if (hexColor) {
+      // quando cores HEX forem definidas, usar cor sólida e remover filtros
+      $("#background-game").css('background-color', hexColor);
+      $("#background-game").css('filter', 'none');
+      $("#background-game").css('-webkit-filter', 'none');
+   } else {
+      // fallback atual: usar filtro de matiz
+      var filter = skyHueFilters[index] || 'none';
+      $("#background-game").css('background-color', defaultSkyColor);
+      $("#background-game").css('filter', filter);
+      $("#background-game").css('-webkit-filter', filter);
+   }
+}
+
+function resetSkyTheme() {
+   $("#background-game").css('background-color', defaultSkyColor);
+   $("#background-game").css('filter', 'none');
+   $("#background-game").css('-webkit-filter', 'none');
+}
+
 // Definição da var de replay
 var replayclickable = false;
 
@@ -91,6 +120,11 @@ function showSplash() {
    // limpar todos os canos para iniciar o novo jogo
    $(".pipe").remove();
    pipes = new Array();
+
+   // reset do tema do céu e status de finalização
+   skyThemeIndex = -1;
+   resetSkyTheme();
+   gameFinished = false;
 
    // começar todas as animações dos sprites novamente
    $(".animated").css('animation-play-state', 'running');
@@ -410,6 +444,30 @@ function playerScore() {
    soundScore.stop();
    soundScore.play();
    setBigScore();
+
+   // alterna tema do céu a cada 3 pontos, até 21 (7 temas)
+   if (score % 3 === 0) {
+      var nextIndex = Math.floor(score / 3) - 1; // 0 no 3º, 1 no 6º, ..., 6 no 21º
+      if (nextIndex >= 0 && nextIndex < skyHueFilters.length) {
+         skyThemeIndex = nextIndex;
+         applySkyTheme(skyThemeIndex);
+      }
+   }
+
+   // fim do jogo ao alcançar 21 pontos
+   if (!gameFinished && score >= 21) {
+      gameFinished = true;
+      // pausa o jogo e mostra pop-up de finalização
+      clearInterval(loopGameloop);
+      clearInterval(loopPipeloop);
+      loopGameloop = null;
+      loopPipeloop = null;
+      currentstate = states.ScoreScreen;
+      // simples pop-up nativo; pode ser substituído por modal customizado depois
+      alert('Parabéns! Você finalizou as 21 fases!');
+      // mostra score final
+      showScore();
+   }
 }
 
 // Função para ir mostrando e mudar os canos
