@@ -1,0 +1,208 @@
+/* 
+  ///// ANIMAÇÕES SPRITES 
+*/
+
+/* Animação de Fundo */
+@-webkit-keyframes animLand {
+    0% {
+        background-position: 0px 0px;
+    }
+
+    100% {
+        background-position: -335px 0px;
+    }
+}
+
+@-moz-keyframes animLand {
+    0% {
+        background-position: 0px 0px;
+    }
+
+    100% {
+        background-position: -335px 0px;
+    }
+}
+
+@-o-keyframes animLand {
+    0% {
+        background-position: 0px 0px;
+    }
+
+    100% {
+        background-position: -335px 0px;
+    }
+}
+
+@keyframes animLand {
+    0% {
+        background-position: 0px 0px;
+    }
+
+    100% {
+        background-position: -335px 0px;
+    }
+}
+
+/* Animação de ceu */
+@-webkit-keyframes animSky {
+    0% {
+        background-position: 0px 100%;
+    }
+
+    100% {
+        background-position: -275px 100%;
+    }
+}
+
+@-moz-keyframes animSky {
+    0% {
+        background-position: 0px 100%;
+    }
+
+    100% {
+        background-position: -275px 100%;
+    }
+}
+
+@-o-keyframes animSky {
+    0% {
+        background-position: 0px 100%;
+    }
+
+    100% {
+        background-position: -275px 100%;
+    }
+}
+
+@keyframes animSky {
+    0% {
+        background-position: 0px 100%;
+    }
+
+    100% {
+        background-position: -275px 100%;
+    }
+}
+
+/* Animação de bird */
+@-webkit-keyframes animBird {
+    from {
+        background-position: 0px 0px;
+    }
+
+    to {
+        background-position: 0px -96px;
+    }
+}
+
+@-moz-keyframes animBird {
+    from {
+        background-position: 0px 0px;
+    }
+
+    to {
+        background-position: 0px -96px;
+    }
+}
+
+@-o-keyframes animBird {
+    from {
+        background-position: 0px 0px;
+    }
+
+    to {
+        background-position: 0px -96px;
+    }
+}
+
+@keyframes animBird {
+    from {
+        background-position: 0px 0px;
+    }
+
+    to {
+        background-position: 0px -96px;
+    }
+}
+
+/* Animação dos canos */
+@-webkit-keyframes animPipe {
+    0% {
+        left: 900px;
+    }
+
+    100% {
+        left: -100px;
+    }
+}
+
+@-moz-keyframes animPipe {
+    0% {
+        left: 900px;
+    }
+
+    100% {
+        left: -100px;
+    }
+}
+
+@-o-keyframes animPipe {
+    0% {
+        left: 900px;
+    }
+
+    100% {
+        left: -100px;
+    }
+}
+
+@keyframes animPipe {
+    0% {
+        left: 900px;
+    }
+
+    100% {
+        left: -100px;
+    }
+}
+
+/* Animação dos blocos do muro */
+@-webkit-keyframes animCeiling {
+    0% {
+        background-position: 0px 0px;
+    }
+
+    100% {
+        background-position: -63px 0px;
+    }
+}
+
+@-moz-keyframes animCeiling {
+    0% {
+        background-position: 0px 0px;
+    }
+
+    100% {
+        background-position: -63px 0px;
+    }
+}
+
+@-o-keyframes animCeiling {
+    0% {
+        background-position: 0px 0px;
+    }
+
+    100% {
+        background-position: -63px 0px;
+    }
+}
+
+@keyframes animCeiling {
+    0% {
+        background-position: 0px 0px;
+    }
+
+    100% {
+        background-position: -63px 0px;
+    }
+}
