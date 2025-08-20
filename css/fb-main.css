@@ -71,11 +71,12 @@ body {
    left: 50%;
    transform: translate(-50%, -50%);
    color: #ffffff;
-   text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
    font-size: 28px;
    font-weight: 800;
    letter-spacing: 0.5px;
-   z-index: 900; /* acima de pipes, abaixo do scoreboard (1000) */
+   z-index: 900;
+   /* acima de pipes, abaixo do scoreboard (1000) */
    text-align: center;
    padding: 8px 12px;
 }
@@ -101,7 +102,7 @@ body {
    background-image: url("../assets/land.png");
    background-repeat: repeat-x;
    background-position: 0px 0px;
-   background-color: var(--color-footer);
+   background-color: var(--color-yellow-footer);
    -webkit-animation: animLand 2516ms linear infinite;
    animation: animLand 2516ms linear infinite;
 }
@@ -121,7 +122,6 @@ body {
 
 /* Tela de começo */
 #splash {
-   /* position: absolute; */
    opacity: 0;
    top: 75px;
    left: 65px;
@@ -138,15 +138,22 @@ body {
    font-size: 1rem;
 }
 
+#modal-vencedor {
+   background-color: var(--color-purple);
+   color: var(--color-white);
+   z-index: 99999;
+
+   #acessar-quiz {
+      background-color: var(--color-dark-blue);
+   }
+}
+
+
+
 /* Tela de pontos obtidos */
 #scoreboard {
-   position: absolute;
    display: none;
    opacity: 0;
-   /* top: 64px;
-   left: 43px; */
-   justify-content: center;
-   align-items: center;
    width: 236px;
    height: 280px;
    background-image: url('../assets/scoreboard.png');

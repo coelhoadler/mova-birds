@@ -1,4 +1,7 @@
 :root {
+    --color-dark-blue: #2A5595;
+    --color-white: #FFFFFF;
     --color-pink: #FF8FC7;
-    --color-footer: #ded895;
+    --color-yellow-footer: #ded895;
+    --color-purple: #6D2077;
 }
