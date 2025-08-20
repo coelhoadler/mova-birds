@@ -29,13 +29,13 @@
                <div id="player" class="bird animated"></div> <!-- Área limite para o jogador -->
                <div id="bigscore"></div> <!-- Marcação do score no topo -->
                <div id="splash"></div> <!-- Splashscreen - Tela inicial "Get ready" -->
-               <div id="modal-boas-vindas" class="p-[18px] rounded-2xl">
+               <div role="alert" id="modal-boas-vindas" class="p-[18px] rounded-2xl">
                   <p>Com o <strong>Credit as a Service</strong>, empresas de</p>
                   <p>todos os segmentos podem ter suas</p>
                   <p>próprias linhas de crédito.</p>
 
                   <p>Mas a jornada tem muitos obstáculos para </p>
-                  <p>se tornar um "banco".</p>
+                  <p>se tornar um <i class="italic">"banco"</i>.</p>
 
                   <p>E você, consegue superar os desafios de</p>
                   <p>cada nível na criação de esteiras de</p>
@@ -43,12 +43,32 @@
 
                   <p><strong>Jogue, vença e concorra a prêmios.</strong></p>
                </div>
+
                <div id="scoreboard"> <!-- Quadro de pontuação -->
                   <div id="medal"></div> <!-- Medalha conquistada -->
                   <div id="currentscore" class="flex justify-end"></div> <!-- Pontuação obtida -->
                   <div id="highscore" class="flex justify-end"></div> <!-- Maior pontuação por Cookies -->
                   <div id="replay"><img src="assets/replay.png" alt="replay"></div> <!-- IMG para recomeçar -->
                </div>
+
+               <div role="alert" id="modal-vencedor" class="p-[18px] rounded-2xl hidden">
+                  <h1 class="mb-[12px]"><strong>PARABÉNS!</strong></h1>
+                  <p>Você completou a jornada de crédito, mas</p>
+                  <p>não precisa passar por todos os desafios.</p>
+
+                  <p>Com a <strong>MOVA</strong>, nossa solução <strong>Credit as a Service</strong>,</p>
+                  <p>você pula todos os obstáculos para</p>
+                  <p>se tornar um <i class="italic">"banco"</i> e gerar novas receitas</p>
+
+                  <p>Agora vem a melhor parte: <strong>CONCORRER A PRÊMIOS!</strong></p>
+                  <p class="mb-[12px]">Acesse o quiz, responda e boa sorte.</p>
+
+                  <div class="text-center">
+                     <button id="acessar-quiz" class="cursor-pointer p-[12px] rounded-md font-bold">ACESSAR
+                        QUIZ</button>
+                  </div>
+               </div>
+
                <!-- Pipes ou Canos, vão aparecendo aqui por meio de um Array -->
             </section>
          </section>

@@ -24,6 +24,7 @@ var velocity = 0;
 var position = 180;
 var rotation = 0;
 var jump = -4.6;
+var TOTAL_POINTS = 21; // total de pontos para finalizar o jogo
 
 // Definição das vars da pontuação min e máxima
 var score = 0;
@@ -37,7 +38,7 @@ var pipes = new Array();
 // Controle de mudança de cor do céu
 var skyThemeIndex = -1; // começa sem tema aplicado; o primeiro virá no 3º ponto
 var skyHueFilters = ['hue-rotate(20deg)', 'hue-rotate(60deg)', 'hue-rotate(100deg)', 'hue-rotate(160deg)', 'hue-rotate(200deg)', 'hue-rotate(260deg)', 'hue-rotate(320deg)'];
-var skyHexColors = ['#2A5595','#2A5595','#2A5595','#6D2077','#6D2077','#E43886','#E43886']; // 7 cores hex para usar no lugar do filtro (preparado para futuro)
+var skyHexColors = ['#2A5595', '#2A5595', '#2A5595', '#6D2077', '#6D2077', '#E43886', '#E43886']; // 7 cores hex para usar no lugar do filtro (preparado para futuro)
 var defaultSkyColor = '#2A5595';
 var gameFinished = false; // sinaliza finalização no 21º ponto
 
@@ -225,8 +226,8 @@ function showSplash() {
    $(".animated").css('-webkit-animation-play-state', 'running');
 
    // fade para a splash screen aparecer
-   $("#splash").transition({ opacity: 1 }, 2000, 'ease');
-   $("#modal-boas-vindas").transition({ opacity: 1 }, 2000, 'ease');
+   $("#splash").transition({ opacity: 1, display: 'block' }, 2000, 'ease');
+   $("#modal-boas-vindas").transition({ opacity: 1, display: 'block' }, 2000, 'ease');
 }
 
 // Função para começar o jogo
@@ -236,11 +237,11 @@ function startGame() {
 
    // fade para a splash screen sumir
    $("#splash").stop();
-   $("#splash").transition({ opacity: 0 }, 500, 'ease');
+   $("#splash").transition({ opacity: 0, display: 'none' }, 500, 'ease');
 
    // fade para o modal de boas-vindas sumir
    $("#modal-boas-vindas").stop();
-   $("#modal-boas-vindas").transition({ opacity: 0 }, 500, 'ease');
+   $("#modal-boas-vindas").transition({ opacity: 0, display: 'none' }, 500, 'ease');
 
    // ir mostrando o score no topo do jogo
    setBigScore();
@@ -497,8 +498,13 @@ function showScore() {
    soundSwoosh.play();
 
    // Mostra o quadro de score
-   $("#scoreboard").css({ y: '40px', opacity: 0 }); // Move o quadro de score para biaxo
+   $("#scoreboard").css({ y: '40px', opacity: 0 });
    $("#replay").css({ y: '40px', opacity: 0 });
+
+   if (score >= TOTAL_POINTS) {
+      $("#modal-vencedor").css({ y: '0px', opacity: 1, display: 'block' }, 600, 'ease');
+   }
+
    $("#scoreboard").transition({ y: '0px', opacity: 1 }, 600, 'ease', function () {
       // Qaundo a animação terminar começa o som de SWOOSH!
       soundSwoosh.stop();
@@ -527,6 +533,7 @@ $("#replay").click(function () {
    soundSwoosh.play();
 
    // Fade para o quadro de score sumir
+   $("#modal-vencedor").css({ y: '-40px', opacity: 0, display: 'none' }, 1000, 'ease');
    $("#scoreboard").transition({ y: '-40px', opacity: 0 }, 1000, 'ease', function () {
       // Esconde o quadro de score
       $("#scoreboard").css("display", "none");
@@ -534,6 +541,11 @@ $("#replay").click(function () {
       // começa o game over e mostra a splash screen
       showSplash();
    });
+});
+
+$('#acessar-quiz').click(function () {
+   // Lógica para acessar o quiz
+   location.href = 'https://www.mova.org.br/quiz';
 });
 
 // Função para armazenar a pontuação do jogador
@@ -556,7 +568,7 @@ function playerScore() {
    }
 
    // fim do jogo ao alcançar 21 pontos
-   if (!gameFinished && score >= 21) {
+   if (!gameFinished && score >= TOTAL_POINTS) {
       gameFinished = true;
       // pausa o jogo e mostra pop-up de finalização
       clearInterval(loopGameloop);
@@ -564,8 +576,7 @@ function playerScore() {
       loopGameloop = null;
       loopPipeloop = null;
       currentstate = states.ScoreScreen;
-      // simples pop-up nativo; pode ser substituído por modal customizado depois
-      alert('Parabéns! Você finalizou as 21 fases!');
+
       // mostra score final
       showScore();
    }
