@@ -63,6 +63,77 @@ function setPhaseLabel(index) {
    ensurePhaseLabelElement();
    var text = phaseLabels[index] || '';
    $('#phase-label').text(text);
+   if (text) {
+      animatePhaseLabelEntry();
+      spawnPhaseParticles();
+   }
+}
+
+// Triggers word effect animation with shimmer glow on center label
+function animatePhaseLabelEntry() {
+   var $label = $('#phase-label');
+   $label.stop(true, true);
+   $label.removeClass('word-effect-glow');
+   // initial state for entrance
+   $label.css({ opacity: 0, scale: 0.85 });
+   // animate to appear
+   $label.transition({ opacity: 1, scale: 1 }, 350, 'ease');
+   // apply pulsing shimmer effect
+   // remove class after animation ends to allow reuse
+   $label.addClass('word-effect-glow');
+   $label.one('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', function () {
+      $label.removeClass('word-effect-glow');
+   });
+}
+
+// Cria partículas coloridas ao redor do label para efeito de jogo
+function spawnPhaseParticles() {
+   var $fly = $('#flyarea-game');
+   var $label = $('#phase-label');
+   if ($label.length === 0) return;
+
+   var flyOffset = $fly.offset();
+   var labelOffset = $label.offset();
+   var originX = labelOffset.left - flyOffset.left + ($label.outerWidth() / 2);
+   var originY = labelOffset.top - flyOffset.top + ($label.outerHeight() / 2);
+
+   var particlesCount = 24;
+   for (var i = 0; i < particlesCount; i++) {
+      var angle = Math.random() * Math.PI * 2; // 0..2π
+      var distance = 40 + Math.random() * 80; // 40..120 px
+      var dx = Math.cos(angle) * distance;
+      var dy = Math.sin(angle) * distance;
+
+      var size = 4 + Math.random() * 5; // 4..9 px
+      var hue = 45 + Math.random() * 60; // amarelos/laranjas vibrantes
+      var light = 60 + Math.random() * 20; // 60..80%
+
+      var $p = $('<span class="word-effect-particle"></span>');
+      $p.css({
+         left: (originX - size / 2) + 'px',
+         top: (originY - size / 2) + 'px',
+         width: size + 'px',
+         height: size + 'px',
+         backgroundColor: 'hsl(' + hue + ', 95%,' + light + '%)'
+      });
+
+      $fly.append($p);
+
+      // pequena defasagem aleatória para dar naturalidade
+      (function (particle, x, y) {
+         var duration = 500 + Math.random() * 400; // 500..900ms
+         setTimeout(function () {
+            particle.transition({
+               x: x + 'px',
+               y: y + 'px',
+               opacity: 0,
+               scale: 0.2
+            }, duration, 'ease', function () {
+               particle.remove();
+            });
+         }, Math.random() * 80);
+      })($p, dx, dy);
+   }
 }
 
 function applySkyTheme(index) {
