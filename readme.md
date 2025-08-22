@@ -1,10 +1,10 @@
 # MOVA Birds
 
-Este projeto é uma implementação do clássico jogo Flappy Bird utilizando HTML5, CSS3 e JavaScript puro. O objetivo é criar uma versão jogável diretamente no navegador, sem dependências externas.
+Este projeto é uma implementação do clássico jogo Flappy Bird utilizando HTML5, CSS3 e JavaScript puro, personalizado com a identidade da Serasa Experian + Mova. O objetivo é criar uma versão jogável diretamente no navegador, sem dependências externas.
 
 ## Funcionalidades
 
-- Controle do pássaro com a barra de espaço ou clique do mouse
+- Controle do Squircle com a barra de espaço ou clique do mouse
 - Pontuação dinâmica
 - Obstáculos gerados aleatoriamente
 - Detecção de colisão
@@ -16,7 +16,9 @@ Este projeto é uma implementação do clássico jogo Flappy Bird utilizando HTM
     ```bash
     git clone https://github.com/seu-usuario/mova-birds.git
     ```
-2. Abra o arquivo `index.html` em seu navegador.
+2. Aconselho a usar o Visual Studio Code como IDE    
+3. Você vai precisar de um servidor local para executar, aconselho a usar o **Live Server** que é uma extensão do Visual Studio Code. 
+4. Após a instalação da extensão, com o botão direito do mouse clique no arquivo `index.html`, escolha a opção **open with Live Server**.
 
 ## Estrutura de Arquivos
 

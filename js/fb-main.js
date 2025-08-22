@@ -6,7 +6,7 @@ import { getCookie, setCookie } from './utils.js';
 */
 
 // Modo de depuração do jogo - Lógico (true or false)
-var debugmode = false;
+var debugmode = true;
 
 var medal = '';
 
@@ -35,11 +35,18 @@ var pipeheight = 130;
 var pipewidth = 52;
 var pipes = new Array();
 
+// CORES
+const blueBgColor = '#005498';
+const purpleBgColor = '#8C0A7E';
+const pinkBgColor = '#FF0073';
+
 // Controle de mudança de cor do céu
 var skyThemeIndex = -1; // começa sem tema aplicado; o primeiro virá no 3º ponto
 var skyHueFilters = ['hue-rotate(20deg)', 'hue-rotate(60deg)', 'hue-rotate(100deg)', 'hue-rotate(160deg)', 'hue-rotate(200deg)', 'hue-rotate(260deg)', 'hue-rotate(320deg)'];
-var skyHexColors = ['#2A5595', '#2A5595', '#2A5595', '#6D2077', '#6D2077', '#E43886', '#E43886']; // 7 cores hex para usar no lugar do filtro (preparado para futuro)
-var defaultSkyColor = '#2A5595';
+var skyHexColors = [blueBgColor, blueBgColor, blueBgColor, purpleBgColor, purpleBgColor, pinkBgColor, pinkBgColor];
+var skyBgImage = ['../assets/sky-azul.png', '../assets/sky-azul.png', '../assets/sky-azul.png', '../assets/sky-roxo.png', '../assets/sky-roxo.png', '../assets/sky-rosa.png', '../assets/sky-rosa.png'];
+var pipeBgImage = ['../assets/cano-azul.png', '../assets/cano-azul.png', '../assets/cano-azul.png', '../assets/cano-roxo.png', '../assets/cano-roxo.png', '../assets/cano-rosa.png', '../assets/cano-rosa.png'];
+var landBgImage = ['../assets/land-azul.png', '../assets/land-azul.png', '../assets/land-azul.png', '../assets/land-roxo.png', '../assets/land-roxo.png', '../assets/land-rosa.png', '../assets/land-rosa.png'];
 var gameFinished = false; // sinaliza finalização no 21º ponto
 
 // Labels de fases (7 fases)
@@ -137,26 +144,22 @@ function spawnPhaseParticles() {
    }
 }
 
-function applySkyTheme(index) {
+function applyThemes(index) {
    var hexColor = skyHexColors[index];
+   var bgImage = skyBgImage[index];
+   var landImage = landBgImage[index];
+
    if (hexColor) {
-      // quando cores HEX forem definidas, usar cor sólida e remover filtros
       $("#background-game").css('background-color', hexColor);
-      $("#background-game").css('filter', 'none');
-      $("#background-game").css('-webkit-filter', 'none');
-   } else {
-      // fallback atual: usar filtro de matiz
-      var filter = skyHueFilters[index] || 'none';
-      $("#background-game").css('background-color', defaultSkyColor);
-      $("#background-game").css('filter', filter);
-      $("#background-game").css('-webkit-filter', filter);
+      $("#background-game").css('background-image', 'url(' + bgImage + ')');
+      $("#footer-game").css('background-image', 'url(' + landImage + ')');
    }
 }
 
-function resetSkyTheme() {
-   $("#background-game").css('background-color', defaultSkyColor);
-   $("#background-game").css('filter', 'none');
-   $("#background-game").css('-webkit-filter', 'none');
+function resetThemes() {
+   $("#background-game").css('background-color', blueBgColor);
+   $("#background-game").css('background-image', 'url(../assets/sky-azul.png)');
+   $("#footer-game").css('background-image', 'url(../assets/land-azul.png)');
 }
 
 // Definição da var de replay
@@ -217,7 +220,7 @@ function showSplash() {
 
    // reset do tema do céu e status de finalização
    skyThemeIndex = -1;
-   resetSkyTheme();
+   resetThemes();
    gameFinished = false;
    setPhaseLabel(-1);
 
@@ -417,17 +420,17 @@ function setMedal() {
    var elemmedal = $("#medal");
    elemmedal.empty();
 
-   if (score < 10)
+   if (score < 5)
       //signal that no medal has been won
       return false;
 
-   if (score >= 10)
+   if (score >= 5)
       medal = "bronze";
-   if (score >= 20)
+   if (score >= 10)
       medal = "silver";
-   if (score >= 30)
+   if (score >= 18)
       medal = "gold";
-   if (score >= 40)
+   if (score >= 21)
       medal = "platinum";
 
    elemmedal.append('<img src="assets/medal_' + medal + '.png" alt="' + medal + '">');
@@ -561,7 +564,7 @@ function playerScore() {
       if (blockIndex >= 0 && blockIndex < skyHueFilters.length) {
          if (blockIndex !== skyThemeIndex) {
             skyThemeIndex = blockIndex;
-            applySkyTheme(skyThemeIndex);
+            applyThemes(skyThemeIndex);
             setPhaseLabel(skyThemeIndex);
          }
       }

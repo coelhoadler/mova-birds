@@ -16,20 +16,18 @@
    <link
       href="https://fonts.googleapis.com/css2?family=Barriecito&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet">
-
 </head>
 
 <body>
-   <!-- // HTML5 -->
-   <main id="main-game"> <!-- Configuração da pag. HTML -->
+   <main id="main-game">
       <section id="screen-game"> <!-- Configuração da área do jogo -->
          <section id="background-game" class="animated"> <!-- Plano de fundo do jogo -->
             <section id="flyarea-game"> <!-- Área limite para o jogador -->
                <div id="ceiling" class="animated"></div> <!-- Blocos/parede do topo -->
-               <div id="player" class="bird animated"></div> <!-- Área limite para o jogador -->
+               <div id="player" class="squircle animated"></div> <!-- Área limite para o jogador -->
                <div id="bigscore"></div> <!-- Marcação do score no topo -->
                <div id="splash"></div> <!-- Splashscreen - Tela inicial "Get ready" -->
-               <div role="alert" id="modal-boas-vindas" class="p-[18px] rounded-2xl">
+               <div role="alert" id="modal-boas-vindas" class="p-[18px] rounded-2xl shadow-2xl">
                   <p>Com o <strong>Credit as a Service</strong>, empresas de</p>
                   <p>todos os segmentos podem ter suas</p>
                   <p>próprias linhas de crédito.</p>
@@ -51,7 +49,7 @@
                   <div id="replay"><img src="assets/replay.png" alt="replay"></div> <!-- IMG para recomeçar -->
                </div>
 
-               <div role="alert" id="modal-vencedor" class="p-[18px] rounded-2xl hidden">
+               <div role="alert" id="modal-vencedor" class="p-[18px] rounded-2xl hidden shadow-2xl">
                   <h1 class="mb-[12px]"><strong>PARABÉNS!</strong></h1>
                   <p>Você completou a jornada de crédito, mas</p>
                   <p>não precisa passar por todos os desafios.</p>
@@ -82,7 +80,6 @@
    <script src="js/fb-jquery.transit.min.js"></script> <!-- JQuery transições -->
    <script src="js/fb-buzz.min.js"></script> <!-- API para áudio -->
    <script type="module" src="js/fb-main.js"></script> <!-- JS principal - Lógica -->
-
 </body>
 
 </html>
