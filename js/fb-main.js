@@ -40,13 +40,19 @@ const blueBgColor = '#005498';
 const purpleBgColor = '#8C0A7E';
 const pinkBgColor = '#FF0073';
 
+const lightBlueFooterColor = '#668db5';
+const lightPurpleFooterColor = '#c573b7';
+const lightPinkFooterColor = '#ffacd6';
+
 // Controle de mudança de cor do céu
 var skyThemeIndex = -1; // começa sem tema aplicado; o primeiro virá no 3º ponto
 var skyHueFilters = ['hue-rotate(20deg)', 'hue-rotate(60deg)', 'hue-rotate(100deg)', 'hue-rotate(160deg)', 'hue-rotate(200deg)', 'hue-rotate(260deg)', 'hue-rotate(320deg)'];
 var skyHexColors = [blueBgColor, blueBgColor, blueBgColor, purpleBgColor, purpleBgColor, pinkBgColor, pinkBgColor];
+var ceilingHueColors = ['hue-rotate(176deg)', 'hue-rotate(176deg)', 'hue-rotate(176deg)', 'hue-rotate(250deg)', 'hue-rotate(250deg)', 'hue-rotate(300deg)', 'hue-rotate(300deg)'];
+var lightHexFooterColors = [lightBlueFooterColor, lightBlueFooterColor, lightBlueFooterColor, lightPurpleFooterColor, lightPurpleFooterColor, lightPinkFooterColor, lightPinkFooterColor];
 var skyBgImage = ['../assets/sky-azul.png', '../assets/sky-azul.png', '../assets/sky-azul.png', '../assets/sky-roxo.png', '../assets/sky-roxo.png', '../assets/sky-rosa.png', '../assets/sky-rosa.png'];
-var pipeBgImage = ['../assets/cano-azul.png', '../assets/cano-azul.png', '../assets/cano-azul.png', '../assets/cano-roxo.png', '../assets/cano-roxo.png', '../assets/cano-rosa.png', '../assets/cano-rosa.png'];
 var landBgImage = ['../assets/land-azul.png', '../assets/land-azul.png', '../assets/land-azul.png', '../assets/land-roxo.png', '../assets/land-roxo.png', '../assets/land-rosa.png', '../assets/land-rosa.png'];
+var pipeBgClass = ['azul', 'azul', 'azul', 'roxo', 'roxo', 'rosa', 'rosa'];
 var gameFinished = false; // sinaliza finalização no 21º ponto
 
 // Labels de fases (7 fases)
@@ -145,33 +151,46 @@ function spawnPhaseParticles() {
 }
 
 function applyThemes(index) {
-   var hexColor = skyHexColors[index];
-   var bgImage = skyBgImage[index];
-   var landImage = landBgImage[index];
+   const hexColor = skyHexColors[index];
+   const bgImage = skyBgImage[index];
+   const landImage = landBgImage[index];
+   const footerColor = lightHexFooterColors[index];
+   const pipeClass = pipeBgClass[index];
+
+   localStorage.setItem('pipeClass', pipeClass);
 
    if (hexColor) {
       $("#background-game").css('background-color', hexColor);
       $("#background-game").css('background-image', 'url(' + bgImage + ')');
-      $("#footer-game").css('background-image', 'url(' + landImage + ')');
+      $("#footer-game").css({
+         'background-image': 'url(' + landImage + ')',
+         'background-color': footerColor
+      });
+      $("#ceiling").css('filter', ceilingHueColors[index]);
    }
 }
 
 function resetThemes() {
+   localStorage.removeItem("pipeClass");
    $("#background-game").css('background-color', blueBgColor);
    $("#background-game").css('background-image', 'url(../assets/sky-azul.png)');
-   $("#footer-game").css('background-image', 'url(../assets/land-azul.png)');
+   $("#footer-game").css({
+      'background-image': 'url(../assets/land-azul.png)',
+      'background-color': lightBlueFooterColor
+   });
+   $("#ceiling").css('filter', 'hue-rotate(176deg)');
 }
 
 // Definição da var de replay
-var replayclickable = false;
+let replayclickable = false;
 
 // Definição dos sons
-var volume = 30;
-var soundJump = new buzz.sound("assets/sounds/sfx_wing.ogg");
-var soundScore = new buzz.sound("assets/sounds/sfx_point.ogg");
-var soundHit = new buzz.sound("assets/sounds/sfx_hit.ogg");
-var soundDie = new buzz.sound("assets/sounds/sfx_die.ogg");
-var soundSwoosh = new buzz.sound("assets/sounds/sfx_swooshing.ogg");
+const volume = 30;
+const soundJump = new buzz.sound("assets/sounds/sfx_wing.ogg");
+const soundScore = new buzz.sound("assets/sounds/sfx_point.ogg");
+const soundHit = new buzz.sound("assets/sounds/sfx_hit.ogg");
+const soundDie = new buzz.sound("assets/sounds/sfx_die.ogg");
+const soundSwoosh = new buzz.sound("assets/sounds/sfx_swooshing.ogg");
 buzz.all().setVolume(volume);
 
 // Definição dos loops do jogo e dos canos
@@ -257,7 +276,7 @@ function startGame() {
    // começar os loops do jogo - aumentar o tempo e intervalo de canos
    var updaterate = 1000.0 / 60.0; // 60 fps
    loopGameloop = setInterval(gameloop, updaterate);
-   loopPipeloop = setInterval(updatePipes, 1400);
+   loopPipeloop = setInterval(updatePipes, 2400);
 
    // ação de pulo para começar o jogo
    playerJump();
@@ -591,11 +610,13 @@ function updatePipes() {
    $(".pipe").filter(function () { return $(this).position().left <= -100; }).remove()
 
    // Add um novo cano (top height + bottom height  + pipeheight == 420) e coloca o cano em outra área
-   var padding = 80;
-   var constraint = 420 - pipeheight - (padding * 2); // duplicando a margem interna
-   var topheight = Math.floor((Math.random() * constraint) + padding); // add padding abaixo
-   var bottomheight = (420 - pipeheight) - topheight;
-   var newpipe = $('<div class="pipe animated"><div class="pipe_upper" style="height: ' + topheight + 'px;"></div><div class="pipe_lower" style="height: ' + bottomheight + 'px;"></div></div>');
+   const padding = 80;
+   const constraint = 420 - pipeheight - (padding * 2); // duplicando a margem interna
+   const topheight = Math.floor((Math.random() * constraint) + padding); // add padding abaixo
+   const bottomheight = (420 - pipeheight) - topheight;
+   const pipeClass = localStorage.getItem('pipeClass') || 'azul';
+   const newpipe = $(`<div class="pipe animated"><div class="pipe_upper ${pipeClass}" style="height: ${topheight}px;"></div><div class="pipe_lower ${pipeClass}" style="height: ${bottomheight}px;"></div></div>`);
+
    $("#flyarea-game").append(newpipe);
    pipes.push(newpipe);
 }

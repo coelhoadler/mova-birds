@@ -124,6 +124,7 @@ body {
    background-repeat: repeat-x;
    -webkit-animation: animCeiling 481ms linear infinite;
    animation: animCeiling 481ms linear infinite;
+   filter: hue-rotate(176deg);
 }
 
 /* Rodapé da ilha */
@@ -135,7 +136,7 @@ body {
    background-image: url("../assets/land-azul.png");
    background-repeat: repeat-x;
    background-position: 0px 0px;
-   background-color: var(--color-yellow-footer);
+   background-color: var(--color-light-blue-footer);
    -webkit-animation: animLand 2516ms linear infinite;
    animation: animLand 2516ms linear infinite;
 }
@@ -280,9 +281,17 @@ body {
    position: absolute;
    top: 0;
    width: 52px;
-   background-image: url('../assets/pipe.png');
+   background-image: url('../assets/pipe-azul.png');
    background-repeat: repeat-y;
    background-position: center;
+}
+
+.pipe_upper.roxo {
+   background-image: url('../assets/pipe-roxo.png');
+}
+
+.pipe_upper.rosa {
+   background-image: url('../assets/pipe-rosa.png');
 }
 
 /* Configurações para a boca do cano do topo*/
@@ -292,7 +301,15 @@ body {
    bottom: 0;
    width: 52px;
    height: 26px;
-   background-image: url('../assets/pipe-down.png');
+   background-image: url('../assets/pipe-down-azul.png');
+}
+
+.pipe_upper.roxo:after {
+   background-image: url('../assets/pipe-down-roxo.png');
+}
+
+.pipe_upper.rosa:after {
+   background-image: url('../assets/pipe-down-rosa.png');
 }
 
 /* Configurações para o cano da base */
@@ -300,9 +317,17 @@ body {
    position: absolute;
    bottom: 0;
    width: 52px;
-   background-image: url('../assets/pipe.png');
+   background-image: url('../assets/pipe-azul.png');
    background-repeat: repeat-y;
    background-position: center;
+}
+
+.pipe_lower.roxo {
+   background-image: url('../assets/pipe-roxo.png');
+}
+
+.pipe_lower.rosa {
+   background-image: url('../assets/pipe-rosa.png');
 }
 
 /* Configurações para a boca do cano da base */
@@ -312,5 +337,13 @@ body {
    top: 0;
    width: 52px;
    height: 26px;
-   background-image: url('../assets/pipe-up.png');
+   background-image: url('../assets/pipe-up-azul.png');
+}
+
+.pipe_lower.roxo:after {
+   background-image: url('../assets/pipe-up-roxo.png');
+}
+
+.pipe_lower.rosa:after {
+   background-image: url('../assets/pipe-up-rosa.png');
 }
