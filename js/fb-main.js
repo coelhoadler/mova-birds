@@ -68,35 +68,195 @@ var phaseLabels = [
 
 function ensurePhaseLabelElement() {
    if ($('#phase-label').length === 0) {
-      // cria o elemento uma vez dentro da área de voo
-      $('#flyarea-game').append('<div id="phase-label"></div>');
+      // cria o elemento uma vez dentro da área de voo com estrutura integrada
+      $('#flyarea-game').append(
+         '<div id="phase-label">' +
+            '<div class="phase-text"></div>' +
+            '<div id="countdown-container">' +
+               '<span class="restart-label">Recomeça:</span>' +
+               '<span id="countdown-timer"></span>' +
+            '</div>' +
+         '</div>'
+      );
+   }
+   
+   // Criar overlay para pausa se não existir
+   if ($('#word-pause-overlay').length === 0) {
+      $('body').append('<div id="word-pause-overlay" class="word-pause-overlay"></div>');
    }
 }
 
 function setPhaseLabel(index) {
    ensurePhaseLabelElement();
    var text = phaseLabels[index] || '';
-   $('#phase-label').text(text);
+   $('#phase-label .phase-text').text(text);
    if (text) {
-      animatePhaseLabelEntry();
+      // Usar o novo efeito de pausa e zoom
+      pauseGameForWordEffect();
       spawnPhaseParticles();
    }
 }
 
-// Triggers word effect animation with shimmer glow on center label
+// Função para iniciar a contagem regressiva
+function startCountdown() {
+   countdownValue = 5;
+   var $countdownContainer = $('#countdown-container');
+   var $countdown = $('#countdown-timer');
+   
+   // Mostrar o container e iniciar com 5
+   $countdown.text(countdownValue);
+   $countdownContainer.transition({ opacity: 1 }, 300, 'ease');
+   $countdown.css('animation', 'countdownPulse 0.8s ease-out');
+   
+   countdownInterval = setInterval(function() {
+      countdownValue--;
+      
+      if (countdownValue > 0) {
+         $countdown.text(countdownValue);
+         $countdown.css('animation', 'countdownPulse 0.8s ease-out');
+      } else {
+         // Chegou ao fim, parar contador
+         clearInterval(countdownInterval);
+         $countdownContainer.transition({ opacity: 0 }, 300, 'ease');
+      }
+   }, 1000);
+}
+
+// Função para pausar o jogo e aplicar efeito de zoom na palavra
+function pauseGameForWordEffect() {
+   gameIsPausedForWord = true;
+   
+   // Pausar todas as animações do jogo
+   $(".animated").css('animation-play-state', 'paused');
+   $(".animated").css('-webkit-animation-play-state', 'paused');
+   
+   // Pausar temporariamente o loop de criação de tubos
+   if (loopPipeloop) {
+      pauseStartTime = Date.now();
+      clearInterval(loopPipeloop);
+      loopPipeloop = null;
+   }
+   
+   // Som especial para destacar a palavra
+   soundSwoosh.stop();
+   soundSwoosh.play();
+   
+   // Mostrar overlay escuro
+   $('#word-pause-overlay').addClass('active');
+   
+   // Aplicar zoom na palavra após um pequeno delay
+   setTimeout(function() {
+      animatePhaseLabelEntryWithZoom();
+      // Iniciar contagem regressiva após a palavra aparecer
+      setTimeout(function() {
+         startCountdown();
+      }, 400);
+   }, 200);
+   
+   // Retomar o jogo após 5 segundos
+   wordPauseTimeout = setTimeout(function() {
+      resumeGameAfterWordEffect();
+   }, 5000);
+}
+
+// Função para retomar o jogo após o efeito da palavra
+function resumeGameAfterWordEffect() {
+   gameIsPausedForWord = false;
+   
+   // Limpar contador se ainda estiver rodando
+   if (countdownInterval) {
+      clearInterval(countdownInterval);
+      countdownInterval = null;
+   }
+   
+   // Esconder container do contador
+   $('#countdown-container').transition({ opacity: 0 }, 200, 'ease');
+   
+   // Retomar todas as animações
+   $(".animated").css('animation-play-state', 'running');
+   $(".animated").css('-webkit-animation-play-state', 'running');
+   
+   // Reiniciar o loop de criação de tubos se ainda estivermos no jogo
+   if (currentstate === states.GameScreen && !loopPipeloop) {
+      var timeSinceLastPipe = Date.now() - lastPipeTime;
+      var tubosPerdidos = Math.floor(timeSinceLastPipe / pipeInterval);
+      
+      // Se perdemos mais de 1 tubo, criar apenas 1 para não sobrecarregar
+      if (tubosPerdidos >= 1) {
+         updatePipes();
+         lastPipeTime = Date.now();
+         
+         // Reiniciar com intervalo normal
+         loopPipeloop = setInterval(updatePipes, pipeInterval);
+      } else {
+         // Calcular delay restante para manter timing natural
+         var timeRemaining = pipeInterval - (timeSinceLastPipe % pipeInterval);
+         var nextPipeDelay = Math.max(500, timeRemaining); // mínimo 500ms para evitar tubos muito próximos
+         
+         // Reiniciar com delay ajustado
+         setTimeout(function() {
+            if (currentstate === states.GameScreen && !loopPipeloop) {
+               loopPipeloop = setInterval(updatePipes, pipeInterval);
+            }
+         }, nextPipeDelay);
+      }
+   }
+   
+   // Esconder overlay escuro
+   $('#word-pause-overlay').removeClass('active');
+   
+   // Fade out da palavra gradualmente
+   var $label = $('#phase-label');
+   $label.transition({ opacity: 0, scale: 0.9 }, 1000, 'ease');
+   
+   if (wordPauseTimeout) {
+      clearTimeout(wordPauseTimeout);
+      wordPauseTimeout = null;
+   }
+}
+
+// Triggers word effect animation with shimmer glow and zoom effect
+function animatePhaseLabelEntryWithZoom() {
+   var $label = $('#phase-label');
+   var $text = $('#phase-label .phase-text');
+   
+   $label.stop(true, true);
+   $text.removeClass('word-effect-glow word-effect-zoom');
+   
+   // Initial state - smaller and transparent
+   $label.css({ opacity: 0, scale: 0.5 });
+   
+   // Animate to appear with zoom effect (escala reduzida)
+   $label.transition({ opacity: 1, scale: 1.2 }, 800, 'easeOutBack');
+   
+   // Apply both shimmer and zoom effects to the text
+   $text.addClass('word-effect-glow word-effect-zoom');
+   
+   // Remove classes after animation
+   $text.one('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', function () {
+      $text.removeClass('word-effect-glow');
+   });
+   
+   setTimeout(function() {
+      $text.removeClass('word-effect-zoom');
+   }, 2000);
+}
+
+// Triggers word effect animation with shimmer glow on center label (função original mantida para compatibilidade)
 function animatePhaseLabelEntry() {
    var $label = $('#phase-label');
+   var $text = $('#phase-label .phase-text');
+   
    $label.stop(true, true);
-   $label.removeClass('word-effect-glow');
+   $text.removeClass('word-effect-glow');
    // initial state for entrance
    $label.css({ opacity: 0, scale: 0.85 });
    // animate to appear
    $label.transition({ opacity: 1, scale: 1 }, 350, 'ease');
-   // apply pulsing shimmer effect
-   // remove class after animation ends to allow reuse
-   $label.addClass('word-effect-glow');
-   $label.one('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', function () {
-      $label.removeClass('word-effect-glow');
+   // apply pulsing shimmer effect to text
+   $text.addClass('word-effect-glow');
+   $text.one('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', function () {
+      $text.removeClass('word-effect-glow');
    });
 }
 
@@ -197,6 +357,17 @@ buzz.all().setVolume(volume);
 var loopGameloop;
 var loopPipeloop;
 
+// Variáveis para controle de pausa por palavra
+var gameIsPausedForWord = false;
+var wordPauseTimeout;
+var countdownInterval;
+var countdownValue;
+
+// Variáveis para controle de timing dos tubos
+var lastPipeTime = 0;
+var pipeInterval = 1400; // intervalo padrão entre tubos
+var pauseStartTime = 0;
+
 // Assim que o documento carregar começa a depuração do jogo
 $(document).ready(function () {
    if (window.location.search == "?easy")
@@ -276,7 +447,10 @@ function startGame() {
    // começar os loops do jogo - aumentar o tempo e intervalo de canos
    var updaterate = 1000.0 / 60.0; // 60 fps
    loopGameloop = setInterval(gameloop, updaterate);
-   loopPipeloop = setInterval(updatePipes, 2400);
+   
+   // Registrar tempo inicial e começar loop de tubos
+   lastPipeTime = Date.now();
+   loopPipeloop = setInterval(updatePipes, pipeInterval);
 
    // ação de pulo para começar o jogo
    playerJump();
@@ -293,6 +467,10 @@ function updatePlayer(player) {
 
 // Função de Game Loop
 function gameloop() {
+   // Se o jogo está pausado por palavra, não executa o loop
+   if (gameIsPausedForWord) {
+      return;
+   }
 
    var player = $("#player");
 
@@ -603,6 +781,11 @@ function playerScore() {
 
 // Função para ir mostrando e mudar os canos
 function updatePipes() {
+   // Se o jogo está pausado por palavra, não criar novos tubos
+   if (gameIsPausedForWord) {
+      return;
+   }
+   
    // Existe algum cano para remover?
    $(".pipe").filter(function () { return $(this).position().left <= -100; }).remove()
 
@@ -616,6 +799,9 @@ function updatePipes() {
 
    $("#flyarea-game").append(newpipe);
    pipes.push(newpipe);
+   
+   // Registrar tempo de criação do tubo
+   lastPipeTime = Date.now();
 }
 
 
