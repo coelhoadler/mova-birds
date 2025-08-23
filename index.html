@@ -50,7 +50,10 @@
                </div>
 
                <div role="alert" id="modal-vencedor" class="p-[18px] rounded-2xl hidden shadow-2xl">
-                  <h1 class="mb-[12px]"><strong>PARABÉNS!</strong></h1>
+                  <h1 class="mb-[12px] flex gap-[12px] items-center">
+                     <img alt="Medalha de Vencedor" title="Medalha de Vencedor" src="assets/medal_platinum.png" />
+                     <strong>PARABÉNS!</strong>
+                  </h1>
                   <p>Você completou a jornada de crédito, mas</p>
                   <p>não precisa passar por todos os desafios.</p>
 
@@ -61,9 +64,14 @@
                   <p>Agora vem a melhor parte: <strong>CONCORRER A PRÊMIOS!</strong></p>
                   <p class="mb-[12px]">Acesse o quiz, responda e boa sorte.</p>
 
-                  <div class="text-center">
-                     <button id="acessar-quiz" class="cursor-pointer p-[12px] rounded-md font-bold">ACESSAR
-                        QUIZ</button>
+                  <div class="flex justify-around">
+                     <button id="jogar-novamente" class="cursor-pointer p-[12px] rounded-md font-bold shadow-2xl"
+                        tabindex="-1">Jogar
+                        de
+                        novo</button>
+                     <button id="acessar-quiz" class="cursor-pointer p-[12px] rounded-md font-bold shadow-2xl"
+                        tabindex="-1">Acessar o
+                        quiz</button>
                   </div>
                </div>
 

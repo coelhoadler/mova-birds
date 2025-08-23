@@ -367,12 +367,8 @@ function gameloop() {
 $(document).keydown(function (e) {
 
    // usando a barra de espaço
-   if (e.keyCode == 32) {
-      // pode usar o space para sair da página de replay e começar novamente
-      if (currentstate == states.ScoreScreen)
-         $("#replay").click();
-      else
-         screenClick();
+   if (e.keyCode === 32) {
+      screenClick();
    }
 });
 
@@ -524,6 +520,7 @@ function showScore() {
    $("#replay").css({ y: '40px', opacity: 0 });
 
    if (score >= TOTAL_POINTS) {
+      $("#scoreboard").css({ display: 'none' });
       $("#modal-vencedor").css({ y: '0px', opacity: 1, display: 'block' }, 600, 'ease');
    }
 
@@ -544,7 +541,7 @@ function showScore() {
    replayclickable = true;
 }
 
-$("#replay").click(function () {
+$("#replay, #jogar-novamente").click(function () {
    // Podemos deixar a ação de replay com clique também
    if (!replayclickable)
       return;

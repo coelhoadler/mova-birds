@@ -177,8 +177,20 @@ body {
    color: var(--color-white);
    z-index: 99999;
 
-   #acessar-quiz {
+   #jogar-novamente {
       background-color: var(--color-dark-blue);
+
+      &:hover {
+         scale: 1.05;
+      }
+   }
+
+   #acessar-quiz {
+      background-color: var(--color-pink);
+
+      &:hover {
+         scale: 1.05;
+      }
    }
 }
 
