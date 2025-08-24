@@ -77,7 +77,7 @@ function gameloop() {
 }
 
 function screenClick() {
-   if (gameState.currentstate === states.GameScreen) playerJump();
+   if (gameState.currentstate === states.GameScreen && !gameState.gameIsPausedForWord) playerJump();
    else if (gameState.currentstate === states.SplashScreen) startGame();
 }
 
