@@ -43,7 +43,7 @@ body {
    top: 0;
    width: 100%;
    height: 80%;
-   background-image: url("../assets/sky.png");
+   background-image: url("../assets/sky-azul.png");
    background-repeat: repeat-x;
    background-position: 0px 100%;
    background-color: #4ec0ca;
@@ -64,21 +64,77 @@ body {
    gap: 10%;
 }
 
-/* Label central para nome da fase */
+/* Container principal para label da fase e contador */
 #phase-label {
    position: absolute;
-   top: 50%;
-   left: 50%;
+   top: 30%;
+   left: 35%;
    transform: translate(-50%, -50%);
+   z-index: 950;
+   /* acima do overlay (850) e pipes, abaixo do scoreboard (1000) */
+   text-align: center;
+   max-width: 300px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 12px;
+}
+
+/* Texto da fase */
+#phase-label .phase-text {
    color: #ffffff;
    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-   font-size: 28px;
+   font-size: 32px;
    font-weight: 800;
    letter-spacing: 0.5px;
-   z-index: 900;
-   /* acima de pipes, abaixo do scoreboard (1000) */
+   padding: 12px 16px;
+   line-height: 1.2;
+}
+
+/* Container da contagem regressiva */
+#countdown-container {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   justify-content: center;
+   opacity: 0;
+   margin-top: 3px;
+}
+
+/* Label "Recomeça:" */
+.restart-label {
+   color: #ffffff;
+   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+   font-size: 20px;
+   font-weight: 600;
+   letter-spacing: 0.5px;
+}
+
+/* Números da contagem regressiva */
+#countdown-timer {
+   color: #FFD700;
+   text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6);
+   font-size: 32px;
+   font-weight: 900;
+   min-width: 24px;
    text-align: center;
-   padding: 8px 12px;
+}
+
+/* Overlay escuro para destacar a palavra durante a pausa */
+.word-pause-overlay {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.7);
+   z-index: 850;
+   opacity: 0;
+   transition: opacity 0.5s ease-in-out;
+}
+
+.word-pause-overlay.active {
+   opacity: 1;
 }
 
 /* word effect - shimmering glow when new words appear */
@@ -86,18 +142,56 @@ body {
    animation: wordShimmer 900ms ease-out 1;
 }
 
+/* word effect - zoom effect for paused game moments */
+.word-effect-zoom {
+   animation: wordZoomPulse 2000ms ease-in-out infinite;
+   transform: scale(1.1);
+}
+
 @keyframes wordShimmer {
    0% {
-      text-shadow: 0 0 0 rgba(255, 239, 150, 0.0), 0 2px 4px rgba(0,0,0,0.4);
+      text-shadow: 0 0 0 rgba(255, 239, 150, 0.0), 0 2px 4px rgba(0, 0, 0, 0.4);
       filter: drop-shadow(0 0 0 rgba(255, 239, 150, 0.0));
    }
+
    40% {
-      text-shadow: 0 0 16px rgba(255, 239, 150, 0.9), 0 2px 4px rgba(0,0,0,0.4);
+      text-shadow: 0 0 16px rgba(255, 239, 150, 0.9), 0 2px 4px rgba(0, 0, 0, 0.4);
       filter: drop-shadow(0 0 12px rgba(255, 239, 150, 0.6));
    }
+
    100% {
-      text-shadow: 0 0 0 rgba(255, 239, 150, 0.0), 0 2px 4px rgba(0,0,0,0.4);
+      text-shadow: 0 0 0 rgba(255, 239, 150, 0.0), 0 2px 4px rgba(0, 0, 0, 0.4);
       filter: drop-shadow(0 0 0 rgba(255, 239, 150, 0.0));
+   }
+}
+
+@keyframes wordZoomPulse {
+   0% {
+      transform: scale(1.1);
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 4px 8px rgba(0,0,0,0.5);
+   }
+   50% {
+      transform: scale(1.15);
+      text-shadow: 0 0 30px rgba(255, 255, 255, 1.0), 0 4px 8px rgba(0,0,0,0.5);
+   }
+   100% {
+      transform: scale(1.1);
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 4px 8px rgba(0,0,0,0.5);
+   }
+}
+
+@keyframes countdownPulse {
+   0% {
+      transform: scale(0.8);
+      opacity: 0;
+   }
+   30% {
+      transform: scale(1.2);
+      opacity: 1;
+   }
+   100% {
+      transform: scale(1);
+      opacity: 1;
    }
 }
 
@@ -108,7 +202,7 @@ body {
    border-radius: 9999px;
    opacity: 0.95;
    pointer-events: none;
-   box-shadow: 0 0 6px rgba(255,255,255,0.7);
+   box-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
    z-index: 905;
 }
 
@@ -122,6 +216,7 @@ body {
    background-repeat: repeat-x;
    -webkit-animation: animCeiling 481ms linear infinite;
    animation: animCeiling 481ms linear infinite;
+   filter: hue-rotate(176deg);
 }
 
 /* Rodapé da ilha */
@@ -130,10 +225,10 @@ body {
    bottom: 0;
    width: 100%;
    height: 20%;
-   background-image: url("../assets/land.png");
+   background-image: url("../assets/land-azul.png");
    background-repeat: repeat-x;
    background-position: 0px 0px;
-   background-color: var(--color-yellow-footer);
+   background-color: var(--color-light-blue-footer);
    -webkit-animation: animLand 2516ms linear infinite;
    animation: animLand 2516ms linear infinite;
 }
@@ -162,8 +257,8 @@ body {
    background-repeat: no-repeat;
 }
 
-/* Modal de boas vindas */
 #modal-boas-vindas {
+   color: var(--color-white);
    background: var(--color-pink);
    line-height: 22px;
    font-size: 1rem;
@@ -174,14 +269,23 @@ body {
    color: var(--color-white);
    z-index: 99999;
 
-   #acessar-quiz {
+   #jogar-novamente {
       background-color: var(--color-dark-blue);
+
+      &:hover {
+         scale: 1.05;
+      }
+   }
+
+   #acessar-quiz {
+      background-color: var(--color-pink);
+
+      &:hover {
+         scale: 1.05;
+      }
    }
 }
 
-
-
-/* Tela de pontos obtidos */
 #scoreboard {
    display: none;
    opacity: 0;
@@ -249,20 +353,20 @@ body {
    height: 0;
 }
 
-/* Configurações da posição inicial do bird */
+/* Configurações da posição inicial do squircle */
 #player {
    left: 60px;
    top: 200px;
 }
 
-/* Configurações do sprite do bird */
-.bird {
+/* Configurações do sprite do squircle */
+.squircle {
    position: absolute;
-   width: 34px;
-   height: 24px;
-   background-image: url('../assets/bird.png');
-   -webkit-animation: animBird 300ms steps(4) infinite;
-   animation: animBird 300ms steps(4) infinite;
+   width: 45px;
+   height: 31px;
+   background-image: url('../assets/squircle.png');
+   -webkit-animation: animSquircle 600ms steps(4) infinite;
+   animation: animSquircle 600ms steps(4) infinite;
 }
 
 /* Configurações da posição e animação do cano */
@@ -281,9 +385,17 @@ body {
    position: absolute;
    top: 0;
    width: 52px;
-   background-image: url('../assets/pipe.png');
+   background-image: url('../assets/pipe-azul.png');
    background-repeat: repeat-y;
    background-position: center;
+}
+
+.pipe_upper.roxo {
+   background-image: url('../assets/pipe-roxo.png');
+}
+
+.pipe_upper.rosa {
+   background-image: url('../assets/pipe-rosa.png');
 }
 
 /* Configurações para a boca do cano do topo*/
@@ -293,7 +405,15 @@ body {
    bottom: 0;
    width: 52px;
    height: 26px;
-   background-image: url('../assets/pipe-down.png');
+   background-image: url('../assets/pipe-down-azul.png');
+}
+
+.pipe_upper.roxo:after {
+   background-image: url('../assets/pipe-down-roxo.png');
+}
+
+.pipe_upper.rosa:after {
+   background-image: url('../assets/pipe-down-rosa.png');
 }
 
 /* Configurações para o cano da base */
@@ -301,9 +421,17 @@ body {
    position: absolute;
    bottom: 0;
    width: 52px;
-   background-image: url('../assets/pipe.png');
+   background-image: url('../assets/pipe-azul.png');
    background-repeat: repeat-y;
    background-position: center;
+}
+
+.pipe_lower.roxo {
+   background-image: url('../assets/pipe-roxo.png');
+}
+
+.pipe_lower.rosa {
+   background-image: url('../assets/pipe-rosa.png');
 }
 
 /* Configurações para a boca do cano da base */
@@ -313,5 +441,13 @@ body {
    top: 0;
    width: 52px;
    height: 26px;
-   background-image: url('../assets/pipe-up.png');
+   background-image: url('../assets/pipe-up-azul.png');
+}
+
+.pipe_lower.roxo:after {
+   background-image: url('../assets/pipe-up-roxo.png');
+}
+
+.pipe_lower.rosa:after {
+   background-image: url('../assets/pipe-up-rosa.png');
 }

@@ -84,44 +84,44 @@
     }
 }
 
-/* Animação de bird */
-@-webkit-keyframes animBird {
+/* Animação de squircle */
+@-webkit-keyframes animSquircle {
     from {
         background-position: 0px 0px;
     }
 
     to {
-        background-position: 0px -96px;
+        background-position: 0px -126px;
     }
 }
 
-@-moz-keyframes animBird {
+@-moz-keyframes animSquircle {
     from {
         background-position: 0px 0px;
     }
 
     to {
-        background-position: 0px -96px;
+        background-position: 0px -126px;
     }
 }
 
-@-o-keyframes animBird {
+@-o-keyframes animSquircle {
     from {
         background-position: 0px 0px;
     }
 
     to {
-        background-position: 0px -96px;
+        background-position: 0px -126px;
     }
 }
 
-@keyframes animBird {
+@keyframes animSquircle {
     from {
         background-position: 0px 0px;
     }
 
     to {
-        background-position: 0px -96px;
+        background-position: 0px -126px;
     }
 }
 
