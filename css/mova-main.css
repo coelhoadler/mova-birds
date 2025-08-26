@@ -60,7 +60,6 @@ body {
 
    display: flex;
    justify-content: center;
-   align-items: center;
    gap: 10%;
 }
 
@@ -168,15 +167,17 @@ body {
 @keyframes wordZoomPulse {
    0% {
       transform: scale(1.1);
-      text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 4px 8px rgba(0,0,0,0.5);
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 4px 8px rgba(0, 0, 0, 0.5);
    }
+
    50% {
       transform: scale(1.15);
-      text-shadow: 0 0 30px rgba(255, 255, 255, 1.0), 0 4px 8px rgba(0,0,0,0.5);
+      text-shadow: 0 0 30px rgba(255, 255, 255, 1.0), 0 4px 8px rgba(0, 0, 0, 0.5);
    }
+
    100% {
       transform: scale(1.1);
-      text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 4px 8px rgba(0,0,0,0.5);
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 4px 8px rgba(0, 0, 0, 0.5);
    }
 }
 
@@ -185,10 +186,12 @@ body {
       transform: scale(0.8);
       opacity: 0;
    }
+
    30% {
       transform: scale(1.2);
       opacity: 1;
    }
+
    100% {
       transform: scale(1);
       opacity: 1;
@@ -262,6 +265,9 @@ body {
    background: var(--color-pink);
    line-height: 22px;
    font-size: 1rem;
+   height: auto;
+   max-height: 247px;
+   overflow-y: hidden;
 }
 
 #modal-vencedor {
