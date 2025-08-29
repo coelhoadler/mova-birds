@@ -28,17 +28,29 @@ export function applyThemes(index) {
     'background-color': footerColor
   });
   $('#ceiling').css('filter', ceilingHueColors[index]);
+
+  // Atualiza sprite do jogador nas fases 0–4 para a versão rosa
+  const playerSprite = index <= 4
+    ? 'assets/fase-rosa/person-rosa.png'
+    : 'assets/squircle.png';
+  $('#player').css({
+    'background-image': 'url(' + playerSprite + ')'
+  });
 }
 
 export function resetThemes() {
   localStorage.removeItem('pipeClass');
   $('#background-game').css({
     'background-color': blueBgColor,
-    'background-image': 'url(../assets/sky-azul.png)'
+    'background-image': 'url(assets/sky-azul.png)'
   });
   $('#footer-game').css({
-    'background-image': 'url(../assets/land-azul.png)',
+    'background-image': 'url(assets/land-azul.png)',
     'background-color': lightBlueFooterColor
   });
   $('#ceiling').css('filter', 'hue-rotate(176deg)');
+  // Reseta sprite do jogador para o padrão
+  $('#player').css({
+    'background-image': 'url(assets/squircle.png)'
+  });
 }

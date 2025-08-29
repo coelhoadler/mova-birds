@@ -7,6 +7,7 @@ import { soundSwoosh } from './audio.js';
 import { updatePipes } from './pipes.js';
 import { playerJump, physicsStep, playerDead, updatePlayer } from './player.js';
 import { setBigScore, playerScore, resetScoreState, showScore } from './score.js';
+import { applyThemes } from './themes.js';
 
 // Splash inicial
 function showSplash() {
@@ -15,6 +16,8 @@ function showSplash() {
    gameState.position = START_POSITION;
    gameState.rotation = 0;
    resetScoreState();
+   // Aplica tema inicial (fase 0): fundo azul, base rosa, pipes rosa e jogador rosa
+   applyThemes(0);
    $('#player').css({ y: 0, x: 0 });
    updatePlayer($('#player'));
    soundSwoosh.stop(); soundSwoosh.play();
@@ -100,5 +103,7 @@ $('#acessar-quiz').click(function () { location.href = 'https://www.mova.org.br/
 $(document).ready(function () {
    const savedscore = getCookie('highscore');
    if (savedscore !== '') gameState.highscore = parseInt(savedscore);
+   // Garante que o sprite rosa esteja aplicado mesmo antes de qualquer troca de tema
+   $('#player').css({'background-image': 'url(assets/fase-rosa/person-rosa.png)'});
    showSplash();
 });

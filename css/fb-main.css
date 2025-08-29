@@ -395,7 +395,7 @@ body {
 }
 
 .pipe_upper.rosa {
-   background-image: url('../assets/pipe-rosa.png');
+   background-image: url('../assets/fase-rosa/pipe-rosa.png');
 }
 
 /* Configurações para a boca do cano do topo*/
@@ -413,7 +413,7 @@ body {
 }
 
 .pipe_upper.rosa:after {
-   background-image: url('../assets/pipe-down-rosa.png');
+   background-image: url('../assets/fase-rosa/pipe-down-rosa.png');
 }
 
 /* Configurações para o cano da base */
@@ -431,7 +431,7 @@ body {
 }
 
 .pipe_lower.rosa {
-   background-image: url('../assets/pipe-rosa.png');
+   background-image: url('../assets/fase-rosa/pipe-rosa.png');
 }
 
 /* Configurações para a boca do cano da base */
@@ -449,5 +449,5 @@ body {
 }
 
 .pipe_lower.rosa:after {
-   background-image: url('../assets/pipe-up-rosa.png');
+   background-image: url('../assets/fase-rosa/pipe-up-rosa.png');
 }

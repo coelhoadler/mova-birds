@@ -28,12 +28,12 @@ export const lightPurpleFooterColor = '#c573b7';
 export const lightPinkFooterColor = '#ffacd6';
 
 export const skyHueFilters = ['hue-rotate(20deg)', 'hue-rotate(60deg)', 'hue-rotate(100deg)', 'hue-rotate(160deg)', 'hue-rotate(200deg)', 'hue-rotate(260deg)', 'hue-rotate(320deg)'];
-export const skyHexColors = [blueBgColor, blueBgColor, blueBgColor, purpleBgColor, purpleBgColor, pinkBgColor, pinkBgColor];
-export const ceilingHueColors = ['hue-rotate(176deg)', 'hue-rotate(176deg)', 'hue-rotate(176deg)', 'hue-rotate(250deg)', 'hue-rotate(250deg)', 'hue-rotate(300deg)', 'hue-rotate(300deg)'];
-export const lightHexFooterColors = [lightBlueFooterColor, lightBlueFooterColor, lightBlueFooterColor, lightPurpleFooterColor, lightPurpleFooterColor, lightPinkFooterColor, lightPinkFooterColor];
-export const skyBgImage = ['../assets/sky-azul.png', '../assets/sky-azul.png', '../assets/sky-azul.png', '../assets/sky-roxo.png', '../assets/sky-roxo.png', '../assets/sky-rosa.png', '../assets/sky-rosa.png'];
-export const landBgImage = ['../assets/land-azul.png', '../assets/land-azul.png', '../assets/land-azul.png', '../assets/land-roxo.png', '../assets/land-roxo.png', '../assets/land-rosa.png', '../assets/land-rosa.png'];
-export const pipeBgClass = ['azul', 'azul', 'azul', 'roxo', 'roxo', 'rosa', 'rosa'];
+export const skyHexColors = [blueBgColor, blueBgColor, blueBgColor, blueBgColor, blueBgColor, pinkBgColor, pinkBgColor];
+export const ceilingHueColors = ['hue-rotate(176deg)', 'hue-rotate(176deg)', 'hue-rotate(176deg)', 'hue-rotate(176deg)', 'hue-rotate(176deg)', 'hue-rotate(300deg)', 'hue-rotate(300deg)'];
+export const lightHexFooterColors = [lightPinkFooterColor, lightPinkFooterColor, lightPinkFooterColor, lightPinkFooterColor, lightPinkFooterColor, lightPinkFooterColor, lightPinkFooterColor];
+export const skyBgImage = ['assets/sky-azul.png', 'assets/sky-azul.png', 'assets/sky-azul.png', 'assets/sky-azul.png', 'assets/sky-azul.png', 'assets/sky-rosa.png', 'assets/sky-rosa.png'];
+export const landBgImage = ['assets/fase-rosa/land-rosa.png', 'assets/fase-rosa/land-rosa.png', 'assets/fase-rosa/land-rosa.png', 'assets/fase-rosa/land-rosa.png', 'assets/fase-rosa/land-rosa.png', 'assets/land-rosa.png', 'assets/land-rosa.png'];
+export const pipeBgClass = ['rosa', 'rosa', 'rosa', 'rosa', 'rosa', 'rosa', 'rosa'];
 
 // Fases
 export const phaseLabels = [
