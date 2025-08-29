@@ -18,3 +18,8 @@ export function updatePipes() {
   gameState.pipes.push(newpipe);
   gameState.lastPipeTime = Date.now();
 }
+
+export function updateExistingPipesColor(newPipeClass) {
+  // Remove classes antigas e adiciona a nova classe para todos os tubos existentes
+  $('.pipe_upper, .pipe_lower').removeClass('rosa roxo cinza azul').addClass(newPipeClass);
+}

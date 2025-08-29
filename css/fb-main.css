@@ -398,6 +398,14 @@ body {
    background-image: url('../assets/fase-rosa/pipe-rosa.png');
 }
 
+.pipe_upper.cinza {
+   background-image: url('../assets/fase-roxa/pipe.png');
+}
+
+.pipe_upper.azul {
+   background-image: url('../assets/fase-azul/pipe-azul1.png');
+}
+
 /* Configurações para a boca do cano do topo*/
 .pipe_upper:after {
    content: "";
@@ -414,6 +422,14 @@ body {
 
 .pipe_upper.rosa:after {
    background-image: url('../assets/fase-rosa/pipe-down-rosa.png');
+}
+
+.pipe_upper.cinza:after {
+   background-image: url('../assets/fase-roxa/pipe-down-roxo1.png');
+}
+
+.pipe_upper.azul:after {
+   background-image: url('../assets/fase-azul/pipe-down-azul1.png');
 }
 
 /* Configurações para o cano da base */
@@ -434,6 +450,14 @@ body {
    background-image: url('../assets/fase-rosa/pipe-rosa.png');
 }
 
+.pipe_lower.cinza {
+   background-image: url('../assets/fase-roxa/pipe.png');
+}
+
+.pipe_lower.azul {
+   background-image: url('../assets/fase-azul/pipe-azul1.png');
+}
+
 /* Configurações para a boca do cano da base */
 .pipe_lower:after {
    content: "";
@@ -450,4 +474,12 @@ body {
 
 .pipe_lower.rosa:after {
    background-image: url('../assets/fase-rosa/pipe-up-rosa.png');
+}
+
+.pipe_lower.cinza:after {
+   background-image: url('../assets/fase-roxa/pipe-up-CINZA.png');
+}
+
+.pipe_lower.azul:after {
+   background-image: url('../assets/fase-azul/pipe-up-azul1.png');
 }

@@ -2,7 +2,7 @@ import { gameState } from './state.js';
 import { soundScore, soundSwoosh } from './audio.js';
 import { applyThemes, resetThemes } from './themes.js';
 import { setPhaseLabel } from './phases.js';
-import { skyHueFilters } from './constants.js';
+import { skyHueFilters, phaseLabels } from './constants.js';
 import { setCookie } from './utils.js';
 
 export function setBigScore(erase) {
@@ -74,14 +74,37 @@ export function playerScore(onGameFinished) {
   gameState.score += 1;
   soundScore.stop(); soundScore.play();
   setBigScore();
+  
   if (gameState.score >= 1) {
-    const blockIndex = Math.floor((gameState.score - 1) / 3);
-    if (blockIndex >= 0 && blockIndex < skyHueFilters.length && blockIndex !== gameState.skyThemeIndex) {
-      gameState.skyThemeIndex = blockIndex;
-      applyThemes(blockIndex);
-      setPhaseLabel(blockIndex);
+    // Lógica de temas (independente das palavras)
+    let themeIndex;
+    if (gameState.score <= 5) {
+      themeIndex = gameState.score - 1; // pontos 1-5 = índices 0-4
+    } else if (gameState.score >= 10 && gameState.score <= 16) {
+      themeIndex = 6 + (gameState.score - 10); // pontos 10-16 = índices 6-12
+    } else if (gameState.score >= 17 && gameState.score <= 21) {
+      themeIndex = 13 + (gameState.score - 17); // pontos 17-21 = índices 13-17
+    } else if (gameState.score >= 6 && gameState.score <= 9) {
+      themeIndex = 5; // pontos 6-9 = índice 5 (tema intermediário)
+    } else {
+      themeIndex = Math.floor((gameState.score - 1) / 3); // lógica antiga para pontos > 21
+    }
+    
+    // Aplica tema se mudou
+    if (themeIndex >= 0 && themeIndex < skyHueFilters.length && themeIndex !== gameState.skyThemeIndex) {
+      gameState.skyThemeIndex = themeIndex;
+      applyThemes(themeIndex);
+    }
+
+    // Lógica de palavras: aparecem de 3 em 3 (pontos 1, 4, 7, 10, 13, 16, 19...)
+    if ((gameState.score - 1) % 3 === 0) {
+      const phaseIndex = Math.floor((gameState.score - 1) / 3);
+      if (phaseIndex >= 0 && phaseIndex < phaseLabels.length) {
+        setPhaseLabel(phaseIndex);
+      }
     }
   }
+  
   if (!gameState.gameFinished && gameState.score >= gameState.TOTAL_POINTS) {
     gameState.gameFinished = true;
     onGameFinished();

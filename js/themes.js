@@ -8,6 +8,7 @@ import {
   blueBgColor,
   lightBlueFooterColor
 } from './constants.js';
+import { updateExistingPipesColor } from './pipes.js';
 
 export function applyThemes(index) {
   const hexColor = skyHexColors[index];
@@ -19,6 +20,9 @@ export function applyThemes(index) {
 
   localStorage.setItem('pipeClass', pipeClass);
 
+  // Atualiza cores dos tubos existentes na tela
+  updateExistingPipesColor(pipeClass);
+
   $('#background-game').css({
     'background-color': hexColor,
     'background-image': 'url(' + bgImage + ')'
@@ -29,10 +33,19 @@ export function applyThemes(index) {
   });
   $('#ceiling').css('filter', ceilingHueColors[index]);
 
-  // Atualiza sprite do jogador nas fases 0–4 para a versão rosa
-  const playerSprite = index <= 4
-    ? 'assets/fase-rosa/person-rosa.png'
-    : 'assets/squircle.png';
+  // Atualiza sprite do jogador baseado na fase
+  let playerSprite;
+  if (index <= 4) {
+    playerSprite = 'assets/fase-rosa/person-rosa.png';
+  } else if (index >= 6 && index <= 12) {
+    // Pontos 10-16: person-roxo
+    playerSprite = 'assets/fase-roxa/person-roxo.png';
+  } else if (index >= 13) {
+    // Pontos 17-21: person-blue
+    playerSprite = 'assets/fase-azul/person-blue.png';
+  } else {
+    playerSprite = 'assets/squircle.png';
+  }
   $('#player').css({
     'background-image': 'url(' + playerSprite + ')'
   });
@@ -40,6 +53,10 @@ export function applyThemes(index) {
 
 export function resetThemes() {
   localStorage.removeItem('pipeClass');
+  
+  // Reseta cores dos tubos existentes para azul (padrão)
+  updateExistingPipesColor('azul');
+  
   $('#background-game').css({
     'background-color': blueBgColor,
     'background-image': 'url(assets/sky-azul.png)'
